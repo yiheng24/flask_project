@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+{% endblock %}
+
+{%block label%}
+
+{% endblock %}
+
+{% block content %}
+  {%  for f in data %}
+  {{ f.c_name }}
+  {% endfor %}
+
+
+{% endblock%}

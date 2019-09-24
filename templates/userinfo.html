@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+{% endblock %}
+
+{%block label%}
+
+{% endblock %}
+
+{% block content %}
+ <div class="row">
+        <div class="col-lg-12">
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">个人详情</h6>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <td rowspan="3" width="200px">
+                            <img style="height: 40%;width: 100%" src="/static/img/photo.jpg" >
+                        </td>
+                        <th>姓名</th>
+                        <td>娃哈哈</td>
+                        <th>性别</th>
+                        <td>女</td>
+                    </tr>
+                    <tr>
+                        <th>年龄</th>
+                        <td>6</td>
+                        <th>身份</th>
+                        <td>学生</td>
+                    </tr>
+                    <tr>
+                        <th>学科</th>
+                        <td>python</td>
+                        <th>阶段</th>
+                        <td>第二阶段</td>
+                    </tr>
+                    <tr>
+                        <th>联系方式</th>
+                        <td>13113413513</td>
+                        <th>家庭住址</th>
+                        <td>北京市朝阳区北花园街</td>
+                    </tr>
+                </table>
+            </div>
+          </div>
+        </div>
+    </div> <div class="row">
+        <div class="col-lg-12">
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">个人详情</h6>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th>星期一</th>
+                        <th>星期二</th>
+                        <th>星期三</th>
+                        <th>星期四</th>
+                        <th>星期五</th>
+                        <th>星期六</th>
+                        <th>星期日</th>
+                    </tr>
+                    {% for week in calendar_month%}
+                    <tr>
+                        {%for d in week%}
+                            {%if d =='empty'%}
+                        <td class="bg-gray-200"><span class="text-gray-900">{{d}}</span></td>
+                            {% else %}
+                                {%if d.flag==0%}
+                                    <td class="bg-gray-500"><span class="text-gray-900"><del>{{d.day}}{{d.course}}</del></span></td>
+                                {%elif d.flag==1%}
+                                    <td class="bg-gradient-success"><span class="text-gray-900"><mark>{{d.day}}{{d.course}}</mark></span></td>
+                                {% else %}
+                                     <td class="bg-gradient-primary"><span class="text-gray-900">{{d.day}}{{d.course}}</span></td>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                    {%endfor%}
+
+                </table>
+            </div>
+          </div>
+        </div>
+    </div>
+
+{% endblock%}
