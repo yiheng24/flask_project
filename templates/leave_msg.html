@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block label %}
+    考勤列表
+    <a href="/leave/" class="btn btn-primary" style="float: right;margin-right: auto">申请假期</a>
+
+{% endblock %}
+
+{% block content %}
+    <table class="table">
+        <tr>
+            <th>申请人</th>
+            <th>请假类型</th>
+            <th>起始时间</th>
+            <th>结束时间</th>
+            <th>状态</th>
+        </tr>
+        {% for leave in page_data %}
+        <tr>
+            <td>{{ leave.request_name }}</td>
+            <td>{{ leave.request_type }}</td>
+            <td>{{ leave.request_start_time }}</td>
+            <td>{{ leave.request_end_time }}</td>
+            <td>
+                {%  if leave.request_status == '0' %}
+                    请假
+                {%  elif leave.request_status =='1' %}
+                    批准
+                {%  elif leave.request_status == '2' %}
+                    驳回
+                {% else %}
+                    销假
+                {% endif %}
+            </td>
+        <td>
+            <button class="btn btn-primary exit" self_id="{{ leave.id }}">撤销</button>
+        </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <ul class="pagination" style="float: right; ">
+    {% if not pager.is_start %}
+    <li class="paginate_button page-item">
+        <a href="/leave_msg/{{ pager.previous_page }}/" class="page-link">上一页</a>
+    </li>
+    {% endif %}
+        {% for p in pager.page_range %}
+            {% if page == p %}
+            <li class="paginate_button page-item disabled">
+                <a href="/leave_msg/{{ p }}/" class="page-link btn btn-primary">{{ p }}</a>
+            </li>
+            {% else %}
+            <li class="paginate_button page-item">
+                <a href="/leave_msg/{{ p }}/" class="page-link">{{ p }}</a>
+            </li>
+            {% endif %}
+         {% endfor %}
+
+    {% if not pager.is_end %}
+            <li class="paginate_button page-item">
+                <a class="page-link" href="/leave_msg/{{ pager.next_page}}/">下一页</a>
+            </li>
+        {% endif %}
+        </ul>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $('.exit').each(
+            function () {
+                $(this).click(
+                    function () {
+                        var id=$(this).attr('self_id');
+                        var url='/cancel/';
+                        $.ajax(
+                            {
+                                url:url,
+                                type:'post',
+                                data:{'id':id},
+                                success:function (data) {
+                                    alert(data['data']);
+                                    window.location.reload()
+                                },
+                                error:function (error) {
+                                    console.log(error)
+                                }
+                            }
+                        )
+                    }
+                )
+            }
+        )
+    </script>
+{% endblock %}
